@@ -2,7 +2,7 @@
 /**
  * Mints an Ethora "client token" for the sandbox's shared demo user.
  *
- *   node --env-file=../sdk-playground/.env.local tools/make-demo-token.mjs \
+ *   node --env-file=.env tools/make-demo-token.mjs \
  *        --user ethora-demo --days 30 --write
  *
  * Needs ETHORA_CHAT_APP_ID and ETHORA_CHAT_APP_SECRET in the environment. The
