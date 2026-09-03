@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ethora chat component: open in an online IDE</title>
+<style>
+  body { margin:0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+         background:#061430; color:#fff; display:flex; min-height:100vh; align-items:center; justify-content:center; }
+  .card { max-width: 560px; padding: 40px; }
+  h1 { font-size: 24px; margin: 0 0 8px; }
+  p { color:#9db2d8; line-height:1.6; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; margin-top:24px; }
+  button { font: inherit; font-weight:600; padding:12px 20px; border:0; border-radius:8px;
+           background:#2775ea; color:#fff; cursor:pointer; }
+  button.alt { background:#12305f; }
+  code { background:#0a204e; padding:2px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Ethora chat component: live sandbox</h1>
+    <p>One click uploads this Vite + React + TypeScript demo of
+      <code>@ethora/chat-component</code> to an online IDE. It installs the package,
+      runs the dev server and shows the chat. Log in with a free account from
+      <a style="color:#7fb0ff" href="https://app.chat.ethora.com" target="_blank" rel="noreferrer">app.chat.ethora.com</a>.</p>
+    <div class="row">
+      <form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
+      <input type="hidden" name="parameters" value="N4IgZglgNgpgziAXKADgQwMYGs0HMYB0AVnAPYB2SoGFALjObUiMADrkAEHrI5aAtjB6JuIGLQAWpAE5oAtBglpacuGnIATAEakAHjwA07LjwBuMaXAgVhogIwEADE8PHRKaRFPKhSDrWkAVxgjTlENeAxPFFprclseABkvGA41TR1dDjAZDgABcSlZAHpFZQVSfhQKBloOAAoAJRhMOrK6gGoOAEEASQ48WrgOLQBPDgBRSRk0AEpXMJ5aUZRfER5-Ug1A2AWTEDgoiBi4WzYw_bhaNGlaBJBTCHoOOTkpK72ucJhTe8f6T77LSBaAaP5PVLA0GA9zSH4QGAAd3Bzw88KRPDcAF9QvsIqtNAwMAjTn5zl9RAVpiV2hUqjVGPcAEwANgIAHYCAAWGE8OGte52AAcBAAzAQ7LyQPyMCoNJVBSLxZKQNjcd9TAARGAEiLkYnwM5ufZ5ZarODFGV3Pw8YViiVMqWmlbwS0tWVyeX8RX2lXqk3_GAkYooKCBXAQchyK33Ln2nkgf2iM2RaLW9YgACsBDZoqlgfu2bjdhV2PYWPYIBxDwhBBo5EguAItAQyBA9fojGYEHptw4wA4EUg5BgAGEKI2OFjstJKhwAOSB-cAbnYPeqfatM7n87ygeDofDkej7toK_Y7Bgug3dSHaB2t5gw7HE4guHq5I4h4j5DgIgA2la9SzAAuuqxTFBwADKlSpAE6hWLE5iDjqwz1AAGgAsgACthaTXNgswcHCYAWESqQAHJbDA87DAABrgUCkFoaBQHRBBuEOkYwCIA6McxrEiPOiKRvKiLzlO6pwBY5jSLxHDvLQIgBMEknlrMq6UNWLb1o2xBkJQbYdrUzCfjwNBVNAFgAPIxHEpK8cayY3Pg6aiBMUFMo4XlSlAEBaLY_48B5Xk-YmoiatZmGGBFUUEL09CyFouwgGBTkbFsOxrO5UEUVe1pJhl2ywM0ZBhrENg2iAwKaLA0hSiQ-hVVaciNVKVyeLKtgqSE6UHFgxzJFoo4SDA2DdUEvUXKIrFMYiUGjIwo2xBg2pgPeUC0L0vYthNwSFWIcCYZlsC9IwFikCge1TRSPAQGVPgaMdxWGn4PUHeQpATPwTzXWqbh3fqYYRIFPBwNIGA8CB5aVtWolXgQEi0PwUBUO2dAmYgIAADwAITyrKLoKcjUAAHzsNjSMoxwUDqLgAC8PAMDw5NhJTLQaKzFLY4I1wcGUljiIzIAAKoACoAGJyEKPAcMUXNfDz4hoBwfCCMLjxIjesvGYwwsiRokj0xEjwYDAcgG5IBgcJGTwQKxqgYKxMD0w4jiy_LTnY7EtCwKTUxFCrI3KBw470iOjAvDTKRpOo2h6NjxQ-37biJ6NaCc6nOgaKMCtcNjGheDbGjC7OpDWqTieF6YeccNjhxpv4LrC5sL2y-DGDC8UHfFPwaCRs2cBNZX3dHDECuJ9nucU8UVNk7DBgHHHmR1q-TYkBQaO60wWNmSAkbDhCiSkJd2GzvQspxLY61QNJ6o8Eo0gaM0TEZ9Z5DB-Q-DX6xd8AzWGIqpaFnIiaS9VEz_w7P3Ec4DHLTR4J9EGVUwplnIBWLSi9V4RHSPHXQSc0BwCwHAfSm8jIYy7Lvf-0laCBBQGLAhRDAoDgQQIbKPAzpXFmihXURISQxXMpUPumh7jkBQPwG2v5rhQCgLLLEaVFggGuIQhy_Y-omyNNNfYas2EgG1KYNIMkLAwn2BZIRYIqqiPEZw24xjRBBHIN0WgUFrg2LepNJM-w0Sa2RGSdwMg3KZjsOyUUU4nLoK4Og9BVZF49z7gPFsugt7kJ3vvHaHBmitG3OI-cVpzzkHXP49Jp5IqYSyQuFqXpSh-VqHkgpfZugoBQGU-cBBigNJQLUtJLTu7LFgMQjAcA4B5PYBk2UJS6z8noI0E-tB6gE0CIIRgBBXITFgIs2gAAhUYvQND1ByTM-csxcazAIHCQk0h6ip1GbQAgzjOq0GejAWu2N2lywnsUa5tyAgQFlI81mGkF4HAhm0xpg9ElkPOhQ1JN5-wcECNJTCMBNhTmabkzSdS6gDmDrQa26EqgoDPqQR4ERpAorALObJVJA6lCUCoCy1QI5nnRWkgc8KYDak2Ds2oTxxjTnJTuVpbKOWkC5YwHlwzyDFAAFRSuMFKyY1IVbtH5pUBltQRB-WQjglecq5UcDFqNfmtKbYthgFAMANthiSFSDkQIpK_IjmGCHa1Ixy60DnKQC1kh7rZCsgQSYslRjeq_nqm4pBAiaBNRwK890WxpFIP4Y1KtHiIVyD6z6dQriXVWBoEY4wVZMR_NkGQ_BEB6rokKpFIq9Q-1GHRaNTxRqkp-owJ1M54ASDhWAhoiJRqcBVu6rADBo2aGqJGOo909W6TfHamAubIxpGBRETYFQGxvkHkRXIcI2VtrgI_OdKFkVsukNbOOHAh2oT1ZIEOEAa08okTTUgTsoDOJmPgeNxEzWkAzsMeUqty6Pukom1I0lBlxA4pwWVkGOCaifX-YmtAUB_gghGSQgQtCr34MUDQaBGmzgtIUGYChaV0jVYySDxRLzXkKXeB82QI2XwoD0RpwFVFhHrFcYu3LlgcHpl29lVbRW1uAppNwEEODv1SIITYEAABeB7mJEDGpm_duaxjAa_LOYlFgBiRpde0EQKsRyIi42KnjNgwjiZ-BYcYZySUcEROGqAua4RyG-bgfApKXVYVwhIp4EGuAcbaGvXj_HEWbEudNVj9NSYNE_BScTAcZihyYoEXNHhMqMc4AwDQY7I71BdegbAgwULrQfCcpyXAWLSRFtIKAQkkaIeQ8UXDEA6y0oIIR2QmHiimDsPOUIlW5aQQAOqNoGIehNg7h36dVQyOohbhgLqY08YYpBETkH9WN6YgQ6g1BNUN8TN9b4jEwFgfwCbVsjBBJtOQC6kX9ygCGAhcBHNP2LdIfgAWKQcAIH9-ot7uOjGbKQId8RNFfAAPywqIIiWgx8fzyQYGgZKc7lLuIu2DkQgOzPA-m5wac4SftcF4liWYg2IfiYNUiwgHA6IeB7DcOtAxb4Jo0J4cwS36wqtS5YXTubpLnNVqw4hQ2aBMUsHA4nXAGd92kKMISABiRwjhMxMlHJqAbQ2uDSXrDh-XSvNQbImN0CWEwtcQ5xBeSnkExby-A9JMtNvBz3RR7AAAEhzCw6P9qHcgoXNQqPpmVHg-9aXw20iRkYubMu4jIIG1cvhUYuxncB7dzARFhc0A-5uj98TafUd5URNijZu33XkBzx4iPBfYBixWFHs6hcnburkv4dxfum7VFwLIFAEgFewtwCfaPEs6BwAlgIaA_f5xnUSgN4tjAoJyZ4hwOwmY1LO5Ytgbv4bNDYvkuLmQSuJbsglgATglqOCSVvncSFvXqYP_B4MDmTvAAC85MLQKNcoecIF1_E_E5GO0lRLEJAM3vZEjnwKjhoJXl-KQIhHEEJO6igNGG-EjFfkmGTkmP-DjrWiDmDtDGEACuDlwHCDQtIJwJFtzNXPzLTIMhRKwsLOgN_CALXPnOnPZhgLQXAPQerEsJdCxOAqwYrHAOgJwJwS9jwS7DwPKNaG8trnXB1BQLgKTFSjMDSuUPSvNonIoV_EIfnCIeoDQRIQwRsLtnOizNcl_p0D0P0IMK2tBJqAANLaGiGszyH1yiFGF0EmEHDwBWCVR6FfDAA4E8oECcI0LDD0xRELivyFxfwSQABkCRC41isQX8E2oG_hm2f284RO4ewRd6ywYR1wERvG0R84y6pAiRyRlB4eisgRxOVguAI486_aww2MNAEQpMBRQOBAx6OyWIicnRTy8h3MnsEOFIsweR0uPRuOxRyg8KZRfG84625A1RKRb4nAC6IkkgHAow4apKSWsgAwGANAEaZ40xxOsxuB4RixURyxFgs40g6xdElRBiYGTG60Vk0BHAAAJNcaEY8TIFiHRJcYrN3K4dbvkSEUUbcZEeUZUesTCcDk7OQJhOOiLGAsMEkQ0KMXXMCLQOXhwBQKOH5NgPTACUUcZpiRYFiKTEXpNvxtIJPGXhQIEVMfIZScDnCUsQuIiRwDibUeHtjASUSSSWSVgBSciX0dJNZBtt0KcTvrQHSTSRwPwPmoqecSyYSWyfIRyRMf2NKTybjAiVWusQDoUSieoOiYwDSXzgAD72mma4FAnSBESCl4kimsmcDik_KSlckECb5YBiykDCp0kbJnYXaMnHranl7snoLuFoB4niHeG8EgAOpYCYgGlcASAkTCyNZIaIAoaNroY9Y4Z4ZwHFBdbyC0iaGMpZl1H-AuRCw8AAD6yU6gmZqo2Zn6UAwsn0JEjxRi3Z4eDRHAAA4k8O7uhu4S1kIWnF7tIG4RDjzJ_imdwT4bSHumajIiwZyUaSUXceUbEVHhJNDkKdLgXEXOuZIYwbTGbFIM5sOaTKOJMlHhNm8cen9gQFXF4OyRwCIBecTtjHio0oStpqSkOqMFKZaTKRYDshwJDtDvOOoBQLkSqmugzMANOrgHSXifnNivhV8DhRSThWCeHsejBb0ZgGcYwORdLrHgAFK9CahUVzFMUsX0XE4f6RhhxkZOK9LwAUkDijSoFKQLh2Aq4ACkV-XFXw4xjZicoFBKWmgOS5epYJiccS5Azy2Gf5bgRBUS1YPclRq6ekLYSSkKKS0qUGHA8q7u62Gm2qegHArku6fhcQDmja4adQDC75LqKaTwuQ7qj6uAEiAWtl8qRxKsV4ZQX88AE25k1Skc-Oss9QKsjFI2YskezRB6Oxna-xdqAwjSBiUQ4gREOQpKSZ0G_IUAVh7xWRIg2E1kUE2VvWdgxQx6FonBCISy-qhqdZtQg4pACV16dQlVex4aV6uZ4auAnadEOFxAcOCOkY7E0Emx75I4c6VqhquupB1sZAGm-Olqap465h0GMAjaOmaA7BxJXqPYqQ9Qe6NwB6n5YCm6pK6mA6kY4wOWeWe2FqhVlgeq6V7ae6TJX4OmgVLeFWkGeqEs0AdVC61kFEEwd1R1jm_qGy5cnaqJLOh1WgqQ6AgyB6Ic9isQggTudlUO-OtWfZBZzW35XwuQXAkO-O9MmVYs35oaemM14YnaAAahCCOvot4HzgLb0GLBMK2ZqBMJhNZK2WLNZI4RMBRK2SLI0IkHLBwBLVLTLXLQraOIkL0KrWLIrcrarRFZRuDjZXqnYERN0LtqQAoJMqkCrMepDaStDbkPUHCKYjlnOrDXZXqhMKOqQOOomiHDRTqHGnRKymAghSCfzrpq9hYPRM_qDgwNbBxZqNDiCRFT0J-hnKMG5s7fiExOMOuGsrUMoJ5ZqglQuq8VWqXWDqoIYtIMUOxHqtTrHBkC5XCNJoTXzi6v0fOnUIiAQq5SkOQAdVNrtawhwN7ZBTAJetBi6moIIM6femerflmvbpgPhsMHCLEaLhRlRjCkFjBgbebSrWrarZqM1b0BRNlcsRKrbdBkyERNZK3vts9XCLmtIU-BtLIW9RYNbJ9AYtILJAML5dIhFXqjaROuPY2iIP-hEC8HIAwKYHIJALAPTJ1uQPou6qQLfL3GgEOp6M3fjgQPwCQBgx7dWZQ8iq8DhqMMMKKO7NBt0OQPsSOA5lIMSQSDtSBsvC5T6mNUybPfxhNpICAmgBPRqbRb5cItBhek0i6n5KRBTSBkUDcnKtbVeBfRQJxrLfLa2UbSbc_TfaraFvOG_TKnqqKF_Sel5bsRA3teIE6rA_VhNgOX3HVdFScUo_xrmpPevapnqoA2VptLLKA9IP6ovs0cSXw7QjAwhoWRBLhigO1soJ1oqphtbCgLtiaqcNBmVXer_ApGRKerzakINZHItg-vlcBuIkxrEfA9Bj3cTa9jIALldgukU8lD8vGnambFI2yjIzNRPQo0E0qdbGo1Gj5Xqp6rpkGrfukRI33ISWnTUy5uXD4FGr2jNoam8T6vKCOFbefYUpfaYwrd0KOKONZCLM_aFgOA9tAEJHPt029j8XY1OKJpKjKhJnZBQIJIOLOOoyc1WhDR1P3HNROowAmvtrHv6lKgY9Rn2Dc9fY0NZFFK2cxZqLY_Y_KlBFIBtg-i6kgadqSodU8CdcxI8OGsML2j8p2siSdQumyqi-i0Y5IlfWYyLFBBMI0K2dhI0BMBLL0OhLY85boHktEkChgJ1dJMKkJqERZRCp2CkhirCmyqOLNEGdbGyhMGAKRLKEa9JM4gc3yhSuUqeJ0jCp-Lc62fc48882LOqM6xY6bdYxRJ69i7i5hPiyxf62Y0rbfa2ffY_c_aGwrYK8K6K-K5K-hKEDawKths3ThRKpfa1dZI0N0OOdLSrQAJq2OMOyt3aWlyB9Z5I2VFJyAtp1DerDBMTpGE2VVwSGrHWtCBCzTjCFzwDcvsCX1JvitQTu6tmYTdCNDjlP2TtQShZr7yosiODU2SUq4AuGOFIpgwZVqPK2P3juoSROkrEbYSpbt9g7uquWmvNiZAsVFmlqktC_gOZ1OGGFoPpMYHHEkbbWyntrFPsIRpBksaaFoLqVVfZ2XW066HnwbzgnnxEcAnv8knurHHsLiul5JcD46Q4iAdRR6aRcB1tQTiASJXAczo10T471pHP9rAcvW5rvNPbfO9OzPnEnVsoaBDthA0VKm4ewpMd4ffJfzLhfgvY_NCeeDpFYiEdMk7L8f4ciduA50KfCe4CyeumqdSfqd3tRVh0R04WzoaBSMIJIhMmyw-qCDqBR5gA7DceBbWkYlYkiA6AkPPuyfUlgKAVEQxaL3h0aCydspykOKamMDee8axamD-eydBkhnCrhe-dRe3qaQyfW47uvr_2vNyc_GKfqeY4MBacEfRrXj8fkALJD2ietzL7Cr7upfg6X1YOhYA47Q0PKwDDDARpYCfTkuT1vOEP8fNA0BPz1xqcHVqexZk4EP6JIX9h1eX3oCyDiJ8b1DaKSdR6zBrfpG-efgBDjDxafpkGcDGYcAa2JAkc3CKDYQ3ACBwD1AiSaDrYEBMRgEUBhEtAQwSAnKuQresJEQzd2OyfTjN6KBsYUikF2qcAA-oJ1fDvGNNuZ3kCh25bh2RzLc-cKwLcCB7K011aHJIdOlYMEC63S3Ovhuq3q2a34_8sK1k930UQP3WRP1iyaSX3hE_Ihlg5Nfo9uCY_8DY8I94-Oki1E-S0k_X3etWO09U9evG0-u08At1t0SGP1o-Xo0ZVZVifJ7frGcPqP7-oiyEjPi5q0dHUI8KST2fQXNQfsC2f6gVScD44TDXgQDy4FYI-be4Abeqzlc6ZOkRpcQtGg9t57dOTzdoBa8ZyhbUNwihiYAwD1DFAAB6nNrArAcAHQxQEAf7hyYRoYTweyBAhy_4dgIEsngWcPHAG8nAfGjFUEKNBAC30kQFMDzE9Q6AEfXHMf958fxQcgxQuAf7HQOfXfcfCfrZ_ff7xQhy8w00REvXxXKApXPv0gonOG1w_H8d8FGghX0n_zTk4P5BmvsRApyRVfnW14iFlfBk5_TS8q67q7Ig_vT43EAX2I_MygIP-3B_nAT_RvgPMM4OW3llny7kA7SOyN3ljnwjacveuXJDnCkN4v8g-u3IPuXz5bt9j-fGaPjqG74J9k-WVVPun0z7Z8TkIhPyLMhaRF8S-ZfDCpxir6hZa-9fRvvHyGzKBW-6A7XqcmwGj9e-E_BcEPxOQj8zYY_XgfOCn6zAZ-kxdrrCjX5oAN-2XHfmFUJzUDv-V_V7jIMhxwVpAOyQHu_1oCf99-4gCHvAID5zp_-aCa3EAPt5F1dkXvDLgeidJldpESA-3Pt0vqyATMfGZ7qxAy6DBlk4gBKEinqC5t82hbVsiWyIJg9DBh_dwZf3qAMCKIDfG4E33cFz9hgdgjQERBECOCoAOg4Hp2i_5RCjuOwHIdDwsEMYrBiITwPQHqDeAwwy-dIXAOyFEQduLgpyBAAtQ1DWIwQIiF4JfQt5fB1CAIXz2CEFsi2EwYttbHiHFFtO7Q0YJ0LqHiDqBZqIDL0J8H4BOBmwcwEMKCFK0QhYw4thEJRR5CUBcseVAzm8DPAquykXah5SYxWAqgUAftiNWGAZo0gdqR4MhBVjH1te1vMIJEjKF29PKnnLfsBA95B83BkaRmNNBTArMogKwEKiaWWK_8X-6xHJHHEqAiwRYLFCSAujhExBSAQ2aHHiPdSnJ0R_ATESxWAhhEyS8fRwNbCFASCfsIgD_JIFJEPc-eJyd1Hcijz1BRQLIEgTSPqBMhrYklQ4SoLoj_FnW8bEVmKwlZSssQcgf4uQQ0AgkUu1uS-vdAlhwhway3Qxkv34BD10eHAXGIYyp6mi5AMGHwAQG66sZYso7DyBOynYzs52mEKCArwcbQZSoJDTnBpnZb6ZjUe6JzC5gjTtddm56FekhijQLpVh_Q99GQFDS9kfh8oBKq8MFy5oAq90IKp9UjIhUC0pAItBB0uYjgMW41coZ5UrScpLSoI3dpWKBzgiK-_4cIiEAMQCUfAv-PjGyitb0BsYTkbCH6WxjXsgcf7OEuh3nD45RxvHc4qONHqjic6o4zDgrFJgfh8ICxODgh1wBX5Dhl9f8JbzGYtiqI-oGAO2P4xdjaRRBNwMa1NbKZ6g0WWLPt1gBtB1AZsaRAej4w3xpIALCkG4PgDejUgfGAhItAwANAjR-3VAZxj3qvjrBImKEj9naENAIJ2_GhtRF5L_s8eoEr4NQlPHLi4SQkNDlOEOHE5v-1AiJDBISyQRug7_RQAemOoSMfUVwRGq5RPg_EIGs4f3m3mODgME0YHTgIWKGxwSnqLeOdBoOOo4lNR2oiQAJJkBzob-4gk4RSEwklF4-6E-SbByEiIkq8FIfHEJyklcd8cGkr4KPW0n_1NBOyfSSQRPj8ACWIgZ1jizxYEsqeyIlovpLJzESvgREobAmQhwNd9OqPEAUj3-rQSIc_Ev6ij1oDND5Cl9UeqFgQkaCopQvYEVoJsGuSdc4gLCQOBwkxFtep5fCclOD5ySfs34yIgMAnp0stGigeoCFPHTWxlJP2XmFIF-bNVWqFuRsjmUXJP4Fw44KynIDryrB5wQkLJmSVroUBigVfdAkRSngiAphuXWYcuKimYE8SLkvEvxNxjaiCAoOIiLI0crHcJg0gJ4vUAlHABVpcJacEqMHZwkxY-UEEgROlyX0ZBTXeRv3DqCrSq-wEVIbChw4e9ROKnMEXV0bLLSZBeBBgBtKmaqwzOO0vafOEqmRxv-B6CBuOOunE5-JqJZ8bAAyEHcIeuUrgJUIhAfgiKo9MyV8C0mDhlAaAQGTPSIqGNlICPJ3igBd5zCAZ-OcnERSuELhD2VRAmYtJ7IKSfAuMnsjB1XFqSzSBM7Du72JnXAyZws7LpLJzoiAAZOdaXgGzsksUHJCApyQtIRlfAgeH_TtBVN2nhSeySMp8TuUDrozyCmMiPBRIiCR8oZdQfgPCjqCvDnu52DMamlJQ-URAx2U7NgCjLWo8S4mepmeDWzktuJH2cRJGHI6R8VmKsYBGbwbgr1NseJbmdUJqkqSBZC4NDpLNdIiBHiZHa4IeJWbgzcg0OR4q10GQlYRA3Ir-LrLdIcyNZJEg0u5MtykTiKFfP-pBLZ4YAOeDAQKYjI6Fty0ZNUhrhf0wHUznervfuXXJtgdDcYYkjtBVOvCySU5LYtKSuIiJCRMO1sLOXyWhbHVDGLvOdNbEba-MzONQTcebMbnh56KkUhOrmhHlg4wBuyCeVTwfabAsO0ubGcnKlkgC8OqmTedeEPnUR-pTtM-fISTlKTE5qk7ea_IJlEz-5BM_GXiRlnU9WytkoNvZKF6OSD58hTmeHgvk_ZPJvchoM61dZPNn6nWOJHVRxLEKHmpCrmixyfj6zw8H8pSdl2snX0SF7rchY9gAURAgFR7HKaAtSmKTeZjZDKS_PZl4lJxYXZBRwpjZ4lDJMimhZwqY4EykFNkwNsG0JYYLVZWCg0jgoYqFDXJBCn7GAuwmQLUJAi6aDD2mhJcXMP4qAOYECkGDDuwEiLvlORnGzb5beYINQN-mSQOAO4igGbBAjnj2MFfBKaFj1YGszsN4kCU5GYUrdih106hAeKEErcjRnALoPbUB7Wx_wISz8TQLqBBd5SoXOoB2Okj6tpEQZWJW4tcGtzBJXi_kElPiVVCWFCimKSZNzRC87GPC5fBYv0UpTaAqS-PukrcWZKV8hwnEAEvyUwTL6sXUMtC3KVjhol2AGpdtxaU4ymh1AlJUEpGXkAMlHALJZMtyUzLiCpszgPt2_JNikwqJRBnaXgzY03O6gCAQwH8mhTXpSYBKUmGKUhclGSYeZcKnVB1cjKMSYFFcGTyDsBkrYagMkmYCIAy4mKNwAfmkCOxRolNaOPC1k45BGAODCfI8Lw5sN6A_AOQCCGthyABp5sOAISqRR_sSOg-VIFiLnzTIdA7qA6ghDbqeAwAao8HPKk_CZBVAcmKPC516YWA5AmQblewDnihAp4oQRXAiqD6iV4WIgddlJVk5y5EcHARwBKs2xMFUgn4APLH37xgBYAugLFSas9D7yssIgcXAsnICydFVSMZVdJRi5nZt8_vEQIrjABcgwALIdaNqpBwoABCQfA1bTCNUmrZOrETYndiJXwYzY50Ffm4FwC4ZlVTIFAKap54Zw4iuAJ1WmpXwsg01LqrfKxM0AerHALIOwFyA4aydkVHq01lyrcDYqVAVgeTMqq5AFqG15qyocmocw95_VSBINQQBkJB9LYEgHNemrCAOrxKkldtWEB0BPxRVsgQuPChECigZ1VWV1cWp-KK4mQ7IdkJmBaCyd4Iv4CDiIHPg8yuQmYCIJ7z7X8Ebgv2O2fQFzSfga1HARXKfm0BMgNAQoG9YGrvVPdIw52Z9SQ0Pyvr2QYALQI4FNaHr8olDIbkNIrz_oRwaqlyMeFgBgBxKbMn9QOozKHLfsOGz8OqtQ1PhxKWqgAewByZNrRoTgz8MaqvDKq1Vx4SdSIFI1hB0AGgLNSmpnWeSKNqgKjXVViy8q3ATGlfM6rI2bZ-1f6zIp5SA0S4PVGAUiJBvrVhBG1AqltSvlXXjruNEm0lG9w-JiFkJfKjdTvi3V2AmQHDTMEpplyZqhVK-XNfmvHVVYRVKKxdRAGXUcA21mm63AGqDWikmMNGugNjnIBNongWKugKpuXyma11POEDYrnk0wBFNharAG6pLWvrTN5myza6nnWt47AuasqLelfVMguQF69kBgBi5ObowGcVzfBns2yc2NHG9zbmunUOb-YdqMgK3n-oWAsNd63zRXikDQNDNRa4zR6rsBoBRQGgPdf6tj4PkSG9mT8MJpVWycQ14fD2eGrcCRrmi0apFLGtqCda3ARAe2bMNXRatrVO2hNWEtk2vqWQXIdkFyCFBaBEtyWrdXWrK1ZaKtS6-DEKC42ApxW3QTUJhAmA0MNAllLVswEVwKpA49VAORqhjiytrcNpRnHVSFrPAuglhLoD1JgBQQx4vlEqpsyVLDB_wdEVQjSBIwBy6IIEeoAzSLLFBEQNO60WIhIA9YisOAfAMUCJ1oB1CdKObIyiZlLRUgl0BgKoAOJmwikmSZVGej6Dkr8AkcLEXmgCXRVydlOiCNWUwyw12AiuMHbZGHR0sKADqR6hA16EtjaEM_dgJrs4B0R-dUYY8Dru4iVtCAc8etPynETNti0T5UlAumjkgJu0Z6NEIMmSZ86vUXbRzNdh1K_gnc7AC0abofTjgIgUEURlkHqCNSxYwjTTKQCUyygfZhqaPRjrj2lZuIPQbCL0Bn4R6CQD6K1tgA2RkDZMDQRPcnoyxp74e0EAiFgAr1PBZMxu8gHlCuqkotqGgJ1P2lKX-oumtMBdFntj190sgOGn1L_ATRqBzArROnMMQrZ2ooAzYXQLQC7rkBmgUuiwAcxZWdo0A6GnTHOjtgbMoWmwEQHREQRwQT4pDPuBQ1pgMYm0xCWhnAA31q6wdjQEMb9HBx0Rf91WCQOwEsS5zZogBsRMRBDHqJyAv-uiNbnV0cAqIoVBdHHK10O9DUCja3NZGKYrMXUmQDTAHPa5EIPsumcHcliY7J16FOvFliD3EZoHZw6RSAJYDuD5Iqg2orIkQZViVF_UdEHuBWOrS9EWwNHHvEtmUZ2KyoPolWFJq_acBYi1sa1JwDUalNaJN7RujGLfQwA6IUjL4V-kj4jhoGaY5PUvS9nOyE0eYgsSWn9R9jvZNQdgFVwfTcGl0mbNeIPDohh7yATpfdk6RGzGoXZWY1yp4zgFeGb0wWK4MMEKpId2ATpV4BaMiOvA4BUR8I24bpyk8LadPBnkz3rROlgukjfmK7VzSfEXenGaGtnRgCccPs1mUlE6W1ChhSA4wJuiunxwcrZIndBoI-V70aYsmpVUgkRHtIRGkj4vWXpLxSMZGJMfDfudGW7TuGI6A6UWZfuQmvAsGODKyPg0a7ENb95Dc2KZWoYv76G3aRhm8RYbh92Gq7V4MwoyO9G6I1Ct1s_WGOSZ6OmXOJnAMSY_8mkA6KZg9MUZKk0m_4LJhRryaBxMMCuwkhkxaygp2gfxmYCrsKYEJngZBroBQYSMOD9s2BtFXAJ7oBzaIP7aQ_mPA4lo4BwBdZmFR6Pg5sauxMY1V2GBFNfKDmGQANHSLlNuUrECRCFUGZkkRmEMZsYdQmavG5GMzdlnHHYBnrng_mfqqkBtlqlkJNBvneQEeF-7I6dQBQ05TGikFIGskAVegzPQRgfR5R0YOwEMMSGdQ13Z4MemthUG2WzLY1GEYnqRw4J69HPT6gzIHpHdw1AZMSSqojAP21QK4BBhGTnEHqxJWSJ4GwTWwlAmgcYCbzCN_pXhVphvcfqba7UhdqQd3V-HQysnZWTuOiGzQR5016Yiu4oN-RBMQAM29RhHir1JQZn2aHRZKnUE5qkw395AHulSyDWBjQE_DVllvR4z2mY4Z6B8QYczEt5TqkcIzGZweO5BXsTwEHu6nYDWoXemJkg8cSkU3IA0NmYNGFWWGPVY8cAYM7GhkCjBZD9eL-IfOP1zBqT0gQg06etRwhvT9ZgasanrAjhZQVqBNIE1JLhofidEXM61l-PK6LI7VetF0DoigJmsugfFF-fyY_nQEdZuAz3V7RucmTMAbvPButzQGEka4FlKHFpS4p8U4FNSmSlta7hqyHO0jPNmzYV8cKWXarDADpoNYgTzWT82Ce_OVB2qV-AFiBSwuqUOCa8UimvDwpsxsUGFRsFxcwrThxiSlNi0SjUqkxNI0BpCz3HaRgp60SgZPf7XOi5o_InGZE3zpBYvs3suxXbu-QYOcYCsaK5sbfnQYupY80cK4KEDND5ie8fea2EGUe2bn_0IBH5PBrgAnIOAEsYoZ-lIhnIzY1wommdkGDsB_wP2v7RMEBNNYqdqGCQKWR_PlkMsBGRVMRg0Jc7agnq4oWZTfAng_L5EO7DhVV3kA4DDlEzM7r7iRjcxRdOqhlm2BdRwcPdN4uSYGBwgnKC9Q9p2ikCg5Qj4aakzsFzQTMBms4Oq_b1cPIWh4FMPiyRWAADhYc8ObEwhr67p4fiYeImcWyeYisJeZtTmiiixDCXWY4mXIMehWoUFIw9e4g6xCaX5pdsfaFaI9CZJERra4mYivbMqAnWGgQNWcwBP1CIH9l2tQfPmNgAnX2A0l8HMW2_ZBkcsA5uNPpirMcAdrTpz6x0Y8Z1ArwrQGU35CHQg3NjCPRoxYALNFnna1DEgPWmTHOXDqPh_s7oZ0zSQEqhhQJiHOQMJzwccB6yBebnMqwoIThUpuHpF3p76CSEZfIToIu1l0rOK8gjAajA2wWqDQKCCJHQ1Yive_4cthoCwCqB5btAKK8CdivxXGLiV_DFWRStwBVb6t9oWFN5vcN2c_nBoHxTgIwAlbKttW3HFnC3otbzWHWxhgStZMDbjt8lZoBdsZDebI2XpmfD8JfgwwGq_8M-eNTdAwMnCRgG7ap0_MfdxCGQLgBDAR3w5htwOKlZUAvZY06gWgMUBn5VhtISKWPvQGYBX6qwQAA">
+      <input type="hidden" name="query" value="file=/src/App.tsx">
+        <button type="submit">Open in CodeSandbox</button>
+      </form>
+      <form action="https://stackblitz.com/run" method="POST" target="_blank">
+        <input type="hidden" name="project[title]" value="Ethora chat component: live sandbox">
+        <input type="hidden" name="project[description]" value="React chat + AI agents SDK by Ethora">
+        <input type="hidden" name="project[template]" value="node">
+      <input type="hidden" name="project[files][package.json]" value="{
+  &quot;name&quot;: &quot;ethora-chat-sandbox&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;private&quot;: true,
+  &quot;description&quot;: &quot;Live sandbox for @ethora/chat-component (React chat + AI agents by Ethora)&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;vite --host&quot;,
+    &quot;dev&quot;: &quot;vite&quot;,
+    &quot;build&quot;: &quot;vite build&quot;,
+    &quot;preview&quot;: &quot;vite preview&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@ethora/chat-component&quot;: &quot;26.7.4&quot;,
+    &quot;react&quot;: &quot;18.3.1&quot;,
+    &quot;react-dom&quot;: &quot;18.3.1&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;@types/react&quot;: &quot;18.3.12&quot;,
+    &quot;@types/react-dom&quot;: &quot;18.3.1&quot;,
+    &quot;@vitejs/plugin-react&quot;: &quot;4.3.4&quot;,
+    &quot;typescript&quot;: &quot;5.6.3&quot;,
+    &quot;vite&quot;: &quot;5.4.11&quot;
+  }
+}
+">
+      <input type="hidden" name="project[files][vite.config.ts]" value="import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  // Some transitive deps (XMPP stack) reference Node's `global`.
+  define: { global: 'window' },
+  server: { host: true },
+});
+">
+      <input type="hidden" name="project[files][tsconfig.json]" value="{
+  &quot;compilerOptions&quot;: {
+    &quot;target&quot;: &quot;ES2020&quot;,
+    &quot;lib&quot;: [&quot;ES2020&quot;, &quot;DOM&quot;, &quot;DOM.Iterable&quot;],
+    &quot;module&quot;: &quot;ESNext&quot;,
+    &quot;moduleResolution&quot;: &quot;bundler&quot;,
+    &quot;jsx&quot;: &quot;react-jsx&quot;,
+    &quot;strict&quot;: true,
+    &quot;skipLibCheck&quot;: true,
+    &quot;allowSyntheticDefaultImports&quot;: true,
+    &quot;esModuleInterop&quot;: true,
+    &quot;isolatedModules&quot;: true,
+    &quot;noEmit&quot;: true
+  },
+  &quot;include&quot;: [&quot;src&quot;]
+}
+">
+      <input type="hidden" name="project[files][index.html]" value="&lt;!doctype html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Ethora Chat Component - live sandbox&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id=&quot;root&quot;&gt;&lt;/div&gt;
+    &lt;script type=&quot;module&quot; src=&quot;/src/main.tsx&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+">
+      <input type="hidden" name="project[files][sandbox.config.json]" value="{
+  &quot;infiniteLoopProtection&quot;: false,
+  &quot;hardReloadOnChange&quot;: false,
+  &quot;view&quot;: &quot;browser&quot;,
+  &quot;container&quot;: {
+    &quot;node&quot;: &quot;20&quot;
+  }
+}
+">
+      <input type="hidden" name="project[files][.codesandbox/tasks.json]" value="{
+  &quot;setupTasks&quot;: [{ &quot;name&quot;: &quot;Install dependencies&quot;, &quot;command&quot;: &quot;npm install&quot; }],
+  &quot;tasks&quot;: {
+    &quot;dev&quot;: {
+      &quot;name&quot;: &quot;Dev server&quot;,
+      &quot;command&quot;: &quot;npm start&quot;,
+      &quot;runAtStart&quot;: true,
+      &quot;preview&quot;: { &quot;port&quot;: 5173 }
+    }
+  }
+}
+">
+      <input type="hidden" name="project[files][src/main.tsx]" value="import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import './styles.css';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  &lt;React.StrictMode&gt;
+    &lt;App /&gt;
+  &lt;/React.StrictMode&gt;
+);
+">
+      <input type="hidden" name="project[files][src/App.tsx]" value="import { useMemo } from 'react';
+import { Chat, XmppProvider } from '@ethora/chat-component';
+import { useDemoIdentity } from './useDemoIdentity';
+
+/**
+ * Ethora chat component: live sandbox.
+ *
+ * The chat itself is the four lines at the bottom of this file. Everything
+ * around it exists so that a visitor is not stopped by a login form:
+ * `useDemoIdentity` either mints a fresh user (when a token endpoint is
+ * configured in src/demo-config.ts) or reuses a shared demo user, and keeps
+ * that identity in localStorage so reloads do not lose the session.
+ *
+ * Docs: https://github.com/dappros/ethora-chat-component
+ */
+export default function App() {
+  const identity = useDemoIdentity();
+
+  // One memoized object shared by the provider and the chat: a new identity on
+  // every render would re-trigger the XMPP init.
+  const config = useMemo(
+    () =&gt; ({
+      // Ethora Cloud production endpoint (the package default).
+      baseUrl: 'https://api.chat.ethora.com/v1',
+
+      // With a demo token the component logs in on its own. Without one it
+      // falls back to its built-in email/password form.
+      ...(identity.token
+        ? { jwtLogin: { enabled: true, token: identity.token } }
+        : {}),
+
+      // Theme. `primary` also drives icon colours and sender names.
+      colors: {
+        primary: '#0052CD',
+        secondary: '#DBEAFE',
+      },
+
+      // Try these:
+      // disableHeader: true,
+      // disableRooms: true,        // single-room / widget style
+      // disableMedia: true,
+      // disableNewChatButton: true,
+      // disableTypingIndicator: true,
+      // typography: { googleFontsFamily: 'Inter', fontSize: 15 },
+      // backgroundChat: { color: '#F7F9FC' },
+      // hiddenRooms: { titles: ['Main chat'] },
+      // inAppNotifications: { enabled: true, position: 'top-right' },
+    }),
+    [identity.token]
+  );
+
+  return (
+    &lt;div className=&quot;page&quot;&gt;
+      &lt;header className=&quot;topbar&quot;&gt;
+        &lt;span className=&quot;dot&quot; /&gt;
+        &lt;strong&gt;@ethora/chat-component&lt;/strong&gt;
+        &lt;span className=&quot;muted&quot;&gt;React chat + AI agents SDK&lt;/span&gt;
+
+        &lt;span className=&quot;session&quot;&gt;
+          {identity.status === 'loading' &amp;&amp; 'starting a session...'}
+          {identity.status === 'demo' &amp;&amp; (
+            &lt;&gt;
+              signed in as &lt;code&gt;{identity.userId}&lt;/code&gt;
+            &lt;/&gt;
+          )}
+          {identity.status === 'own' &amp;&amp; 'sign in with your Ethora account'}
+          {identity.status === 'error' &amp;&amp; `demo session failed: ${identity.error}`}
+        &lt;/span&gt;
+
+        {identity.status === 'demo' &amp;&amp; identity.canMintUsers &amp;&amp; (
+          &lt;button onClick={identity.newUser}&gt;New demo user&lt;/button&gt;
+        )}
+        {identity.status === 'demo' &amp;&amp; (
+          &lt;button onClick={identity.useOwnAccount}&gt;Use my account&lt;/button&gt;
+        )}
+        {identity.status !== 'demo' &amp;&amp; (identity.canMintUsers || identity.error) &amp;&amp; (
+          &lt;button onClick={identity.backToDemo}&gt;Back to demo user&lt;/button&gt;
+        )}
+
+        &lt;a
+          className=&quot;link&quot;
+          href=&quot;https://github.com/dappros/ethora-chat-component&quot;
+          target=&quot;_blank&quot;
+          rel=&quot;noreferrer&quot;
+        &gt;
+          GitHub
+        &lt;/a&gt;
+      &lt;/header&gt;
+
+      &lt;main className=&quot;chat-shell&quot;&gt;
+        {identity.status === 'loading' ? (
+          &lt;div className=&quot;placeholder&quot;&gt;Creating a demo user...&lt;/div&gt;
+        ) : (
+          &lt;XmppProvider key={identity.userId ?? 'anon'} config={config}&gt;
+            &lt;Chat
+              config={config}
+              user={identity.account}
+              roomJID={identity.roomJID}
+              MainComponentStyles={{ height: '100%' }}
+            /&gt;
+          &lt;/XmppProvider&gt;
+        )}
+      &lt;/main&gt;
+    &lt;/div&gt;
+  );
+}
+">
+      <input type="hidden" name="project[files][src/demo-config.ts]" value="/**
+ * How the sandbox gets a session without asking the visitor to log in.
+ *
+ * Ethora exchanges a &quot;client token&quot; (a JWT signed with your app secret) for a
+ * real chat session: POST /v1/users/client. The component does that for you
+ * through `config.jwtLogin`. Signing needs the secret, so the token is minted
+ * either ahead of time (shared demo user) or by a tiny endpoint of yours
+ * (a fresh user per visitor).
+ *
+ * Fill in ONE of the two. Both can also be passed at runtime:
+ *   ?tokenUrl=https://...   or   ?token=JWT...
+ * and through Vite env vars VITE_DEMO_TOKEN_URL / VITE_DEMO_CLIENT_TOKEN.
+ */
+
+/**
+ * 1) Auto-create a user per visitor (recommended).
+ *
+ * Endpoint that accepts `{ userId }` and answers `{ token, roomJID? }`.
+ * A ready-to-deploy implementation lives in `demo-token-server/`.
+ * The sandbox remembers the userId it was given, so the same visitor keeps
+ * the same identity and history across reloads.
+ */
+export const DEMO_TOKEN_ENDPOINT = '';
+
+/**
+ * 2) Or: one shared &quot;default&quot; demo user, no server at all.
+ *
+ * Mint it with:  node --env-file=.env tools/make-demo-token.mjs --user ethora-demo --days 30
+ * Anyone who opens the sandbox is that user, so use a throwaway account and
+ * keep the lifetime short.
+ */
+export const DEMO_CLIENT_TOKEN = '';
+
+/**
+ * 3) Or, with no secrets at all: a normal Ethora account used as the shared
+ * &quot;default&quot; demo user. Sign one up at https://app.chat.ethora.com, put its
+ * credentials here, and the component logs in with them on load.
+ *
+ * The password sits in public source, so use a throwaway account, keep it out
+ * of anything that matters, and rotate it when the demo is done.
+ */
+export const DEMO_ACCOUNT = { email: '', password: '' };
+
+/** Optional: drop the demo user straight into one room. */
+export const DEMO_ROOM_JID = '';
+
+/** Shown in the top bar so it is obvious which identity is in use. */
+export const DEMO_USER_PREFIX = 'sandbox';
+">
+      <input type="hidden" name="project[files][src/useDemoIdentity.ts]" value="import { useCallback, useEffect, useState } from 'react';
+import {
+  DEMO_ACCOUNT,
+  DEMO_CLIENT_TOKEN,
+  DEMO_ROOM_JID,
+  DEMO_TOKEN_ENDPOINT,
+  DEMO_USER_PREFIX,
+} from './demo-config';
+
+const STORAGE_KEY = 'ethora-sandbox-identity-v1';
+/** Re-mint this long before the token actually dies. */
+const REFRESH_MARGIN_MS = 5 * 60 * 1000;
+
+export type DemoMode = 'auto' | 'own';
+
+export type DemoIdentity = {
+  /** 'demo' means we can log in on our own, 'own' means show the login form. */
+  status: 'loading' | 'demo' | 'own' | 'error';
+  token?: string;
+  /** Set instead of `token` when a shared email/password account is used. */
+  account?: { email: string; password: string };
+  userId?: string;
+  roomJID?: string;
+  error?: string;
+  /** Endpoint configured, so &quot;new user&quot; is meaningful. */
+  canMintUsers: boolean;
+  newUser: () =&gt; void;
+  useOwnAccount: () =&gt; void;
+  backToDemo: () =&gt; void;
+};
+
+type Stored = { userId: string; token?: string; exp?: number; mode: DemoMode };
+
+const env = (import.meta as unknown as { env?: Record&lt;string, string&gt; }).env ?? {};
+const param = (name: string): string =&gt; {
+  try {
+    return new URLSearchParams(window.location.search).get(name) ?? '';
+  } catch {
+    return '';
+  }
+};
+
+const tokenEndpoint = () =&gt;
+  param('tokenUrl') || env.VITE_DEMO_TOKEN_URL || DEMO_TOKEN_ENDPOINT;
+const staticToken = () =&gt;
+  param('token') || env.VITE_DEMO_CLIENT_TOKEN || DEMO_CLIENT_TOKEN;
+
+/** `exp` out of a JWT payload, in ms. Undefined when the token has none. */
+function tokenExpiry(token: string): number | undefined {
+  try {
+    const payload = token.replace(/^JWT\s+/i, '').split('.')[1];
+    const json = JSON.parse(
+      atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
+    ) as { exp?: number; data?: { userId?: string } };
+    return payload &amp;&amp; json.exp ? json.exp * 1000 : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function tokenUserId(token: string): string | undefined {
+  try {
+    const payload = token.replace(/^JWT\s+/i, '').split('.')[1];
+    const json = JSON.parse(
+      atob(payload.replace(/-/g, '+').replace(/_/g, '/'))
+    ) as { data?: { userId?: string } };
+    return json.data?.userId;
+  } catch {
+    return undefined;
+  }
+}
+
+function read(): Stored | null {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Stored) : null;
+  } catch {
+    return null;
+  }
+}
+
+function write(value: Stored | null) {
+  try {
+    if (value) localStorage.setItem(STORAGE_KEY, JSON.stringify(value));
+    else localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    /* private mode: the session simply does not survive a reload */
+  }
+}
+
+function newUserId(): string {
+  const rnd =
+    typeof crypto !== 'undefined' &amp;&amp; 'randomUUID' in crypto
+      ? crypto.randomUUID().slice(0, 8)
+      : Math.random().toString(36).slice(2, 10);
+  return `${DEMO_USER_PREFIX}-${rnd}`;
+}
+
+const isFresh = (exp?: number) =&gt; !exp || exp - Date.now() &gt; REFRESH_MARGIN_MS;
+
+/**
+ * Resolves the identity the chat should run as, and keeps it in localStorage so
+ * a reload does not send the visitor back to a login form.
+ */
+export function useDemoIdentity(): DemoIdentity {
+  const [state, setState] = useState&lt;
+    Pick&lt;DemoIdentity, 'status' | 'token' | 'account' | 'userId' | 'roomJID' | 'error'&gt;
+  &gt;({ status: 'loading' });
+  const [nonce, setNonce] = useState(0);
+
+  useEffect(() =&gt; {
+    let cancelled = false;
+
+    const resolve = async () =&gt; {
+      const stored = read();
+
+      if (stored?.mode === 'own') {
+        setState({ status: 'own' });
+        return;
+      }
+
+      // A cached token that is still good: no round trip, no login form.
+      if (stored?.token &amp;&amp; isFresh(stored.exp)) {
+        setState({
+          status: 'demo',
+          token: stored.token,
+          userId: stored.userId,
+          roomJID: DEMO_ROOM_JID || undefined,
+        });
+        return;
+      }
+
+      const endpoint = tokenEndpoint();
+      if (endpoint) {
+        const userId = stored?.userId || newUserId();
+        setState({ status: 'loading' });
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId }),
+          });
+          if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+          const data = (await res.json()) as { token?: string; roomJID?: string };
+          if (!data.token) throw new Error('endpoint returned no token');
+          if (cancelled) return;
+          write({
+            userId,
+            token: data.token,
+            exp: tokenExpiry(data.token),
+            mode: 'auto',
+          });
+          setState({
+            status: 'demo',
+            token: data.token,
+            userId,
+            roomJID: data.roomJID || DEMO_ROOM_JID || undefined,
+          });
+        } catch (err) {
+          if (cancelled) return;
+          // A dead endpoint must not lock the visitor out: fall back to the
+          // component's own login form instead of a broken screen.
+          setState({
+            status: 'own',
+            error: err instanceof Error ? err.message : String(err),
+          });
+        }
+        return;
+      }
+
+      const shared = staticToken();
+      if (shared) {
+        const exp = tokenExpiry(shared);
+        if (!isFresh(exp)) {
+          setState({ status: 'error', error: 'demo token expired, mint a new one' });
+          return;
+        }
+        const userId = tokenUserId(shared) || 'demo';
+        write({ userId, token: shared, exp, mode: 'auto' });
+        setState({
+          status: 'demo',
+          token: shared,
+          userId,
+          roomJID: DEMO_ROOM_JID || undefined,
+        });
+        return;
+      }
+
+      if (DEMO_ACCOUNT.email &amp;&amp; DEMO_ACCOUNT.password) {
+        write({ userId: DEMO_ACCOUNT.email, mode: 'auto' });
+        setState({
+          status: 'demo',
+          account: DEMO_ACCOUNT,
+          userId: DEMO_ACCOUNT.email,
+          roomJID: DEMO_ROOM_JID || undefined,
+        });
+        return;
+      }
+
+      setState({ status: 'own' });
+    };
+
+    void resolve();
+
+    return () =&gt; {
+      cancelled = true;
+    };
+  }, [nonce]);
+
+  const newUser = useCallback(() =&gt; {
+    write(null);
+    setNonce((n) =&gt; n + 1);
+  }, []);
+
+  const useOwnAccount = useCallback(() =&gt; {
+    const stored = read();
+    write({ userId: stored?.userId || '', mode: 'own' });
+    setNonce((n) =&gt; n + 1);
+  }, []);
+
+  const backToDemo = useCallback(() =&gt; {
+    write(null);
+    setNonce((n) =&gt; n + 1);
+  }, []);
+
+  return {
+    ...state,
+    canMintUsers: Boolean(tokenEndpoint()),
+    newUser,
+    useOwnAccount,
+    backToDemo,
+  };
+}
+">
+      <input type="hidden" name="project[files][src/styles.css]" value=":root {
+  color-scheme: light;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f4f6fa;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: #061430;
+  color: #fff;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+
+.topbar .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #2775ea;
+  transform: rotate(45deg);
+}
+
+.topbar .muted {
+  color: #9db2d8;
+}
+
+.topbar .link {
+  color: #7fb0ff;
+  text-decoration: none;
+  margin-left: auto;
+}
+
+.topbar .link + .link {
+  margin-left: 0;
+}
+
+.chat-shell {
+  flex: 1;
+  min-height: 0;
+  padding: 12px;
+}
+
+.chat-shell &gt; * {
+  height: 100%;
+}
+
+.topbar .session {
+  color: #cfe0ff;
+  font-size: 13px;
+}
+
+.topbar .session code {
+  background: #12305f;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.topbar button {
+  font: inherit;
+  font-size: 12px;
+  color: #cfe0ff;
+  background: #12305f;
+  border: 1px solid #24457c;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+
+.topbar button:hover {
+  background: #1a3d75;
+}
+
+.placeholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  background: #fff;
+  border-radius: 8px;
+}
+">
+      <input type="hidden" name="project[files][README.md]" value="# Ethora chat component: live sandbox
+
+Minimal Vite + React + TypeScript app that mounts [`@ethora/chat-component`](https://www.npmjs.com/package/@ethora/chat-component),
+the open-source React chat and AI-agent UI by [Ethora](https://ethora.com).
+
+## Open it online (no local setup)
+
+Open `open-in-online-ide.html` from this folder in a browser and press one of the two buttons:
+
+- Open in CodeSandbox (POSTs the project to the CodeSandbox define API)
+- Open in StackBlitz (POSTs the project to StackBlitz)
+
+Neither needs an account. The plain CodeSandbox link is also saved in `codesandbox-url.txt`.
+Regenerate both after editing the demo: `node tools/make-launchers.mjs`.
+
+## Run it
+
+```bash
+npm install
+npm run dev
+```
+
+## No login screen in the way
+
+Out of the box the component asks for an Ethora email and password, which is the wrong first
+impression for a demo. `src/useDemoIdentity.ts` wraps it and resolves a session on load, then keeps
+that identity in `localStorage`, so a reload never sends the visitor back to a login form. Pick one
+mode in `src/demo-config.ts`:
+
+| Mode | What the visitor gets | What it costs you |
+| --- | --- | --- |
+| `DEMO_TOKEN_ENDPOINT` | Own user, created on first visit, reused forever | Deploy `demo-token-server/` (holds the app secret) |
+| `DEMO_CLIENT_TOKEN` | One shared demo user | Mint a token: `node --env-file=.env tools/make-demo-token.mjs --user ethora-demo --days 30 --write` |
+| `DEMO_ACCOUNT` | One shared demo user | Sign up a throwaway account at [app.chat.ethora.com](https://app.chat.ethora.com), paste email + password |
+| none of them | The component's own login form | Nothing |
+
+Both shared modes put a working credential into public source, so use a throwaway identity and
+rotate it. The endpoint mode is the only one that keeps the secret server-side and gives every
+visitor a separate user, which is what you want if the sandbox is linked from docs or a blog post.
+
+Runtime overrides, handy when you do not want to edit the source in a public sandbox:
+`?tokenUrl=https://.../api/demo-token` or `?token=&lt;client JWT&gt;`.
+
+The top bar shows which identity is live and lets the visitor mint a new demo user or switch to
+their own Ethora account. Everything else (rooms, history, typing, media) works from there.
+
+The chat connects to Ethora Cloud: `https://api.chat.ethora.com/v1` + `wss://xmpp.chat.ethora.com/ws`.
+
+## The whole integration
+
+```tsx
+import { Chat, XmppProvider } from '@ethora/chat-component';
+
+const config = { baseUrl: 'https://api.chat.ethora.com/v1' };
+
+&lt;XmppProvider config={config}&gt;
+  &lt;Chat config={config} /&gt;
+&lt;/XmppProvider&gt;;
+```
+
+`src/App.tsx` has the commented list of the options worth trying first (theme, hide the room list,
+typography, backgrounds, notifications). Full reference: the package
+[README](https://github.com/dappros/ethora-chat-component#full-config-reference-iconfig).
+
+## How this maps to a real product
+
+The demo modes are the same auth hooks you would use in production:
+
+```tsx
+&lt;Chat config={{ jwtLogin: { enabled: true, token: YOUR_CLIENT_JWT } }} /&gt;
+// or userLogin (inject an already authenticated user) /
+//    customLogin (your own async login) / googleLogin
+```
+
+Your backend mints the client JWT from your app secret exactly like
+`demo-token-server/api/demo-token.js` does, so the visitor never sees an Ethora login screen.
+
+## Other Ethora SDKs
+
+- React Native: `@ethora/chat-component-rn`
+- iOS (SwiftUI): [ethora-sdk-swift](https://github.com/dappros/ethora-sdk-swift)
+- Android (Compose): [ethora-sdk-android](https://github.com/dappros/ethora-sdk-android)
+- WordPress plugin: [Ethora Chat Assistant](https://wordpress.org/plugins/ethora-chat-assistant/)
+">
+        <button class="alt" type="submit">Open in StackBlitz</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

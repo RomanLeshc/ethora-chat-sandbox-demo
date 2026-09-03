@@ -1,0 +1,10 @@
+{
+  "name": "ethora-demo-token-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mints login-free Ethora chat sessions for the sandbox demo",
+  "dependencies": {
+    "@ethora/sdk-backend": "^26.3.2"
+  }
+}
