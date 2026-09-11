@@ -21,24 +21,26 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 // project, which is what was actually verified end to end (auth, XMPP
 // presence, message send/receive all confirmed working through this URL).
 //
-// Gitpod uses the same idea: prefix the repo URL, driven by `.gitpod.yml`
-// at the repo root (npm install && npm run dev, port 5173 public).
+// No Gitpod button: "Gitpod Classic" (the click-a-link-get-a-cloud-VSCode
+// product this would have used) was sunset and gitpod.io now redirects to
+// "Ona", an unrelated AI-agent-coding product that needs its own signup
+// and paid credits, not a simple embeddable dev environment. Revisit if
+// Ona ever ships something equivalent to classic Gitpod's prefix-URL
+// workspace launcher.
 //
-// All three need the source of truth to be a real, pushed GitHub repo, not
-// an inline file payload, so the exported build script below stays a lot
-// smaller than the old base64-payload version.
+// Both remaining launchers need the source of truth to be a real, pushed
+// GitHub repo, not an inline file payload, so the exported build script
+// below stays a lot smaller than the old base64-payload version.
 const GITHUB_REPO = 'RomanLeshc/ethora-chat-sandbox-demo';
 const GITHUB_BRANCH = 'master';
 const csUrl = `https://codesandbox.io/p/github/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 const sbUrl = `https://stackblitz.com/~/github.com/${GITHUB_REPO}`;
-const gpUrl = `https://gitpod.io/#https://github.com/${GITHUB_REPO}`;
 
 fs.writeFileSync(path.join(ROOT, 'codesandbox-url.txt'), csUrl + '\n');
 console.log('CodeSandbox URL (GitHub import):', csUrl);
 console.log('StackBlitz URL (GitHub import):', sbUrl);
-console.log('Gitpod URL:', gpUrl);
 console.log(
-  'Reminder: all three only stay correct if',
+  'Reminder: both only stay correct if',
   GITHUB_REPO,
   '(branch',
   GITHUB_BRANCH + ')',
@@ -61,7 +63,6 @@ const html = `<!doctype html>
   button { font: inherit; font-weight:600; padding:12px 20px; border:0; border-radius:8px;
            background:#2775ea; color:#fff; cursor:pointer; }
   button.alt { background:#12305f; }
-  button.gitpod { background:#ffae33; color:#1a1a1a; }
   code { background:#0a204e; padding:2px 6px; border-radius:4px; }
   .note { color:#6f86b3; font-size:13px; margin-top:16px; }
 </style>
@@ -79,14 +80,11 @@ const html = `<!doctype html>
       <a href="${sbUrl}" target="_blank" rel="noreferrer">
         <button class="alt" type="button">Open in StackBlitz</button>
       </a>
-      <a href="${gpUrl}" target="_blank" rel="noreferrer">
-        <button class="gitpod" type="button">Open in Gitpod</button>
-      </a>
       <a href="${csUrl}" target="_blank" rel="noreferrer">
         <button type="button">Open in CodeSandbox</button>
       </a>
     </div>
-    <p class="note">StackBlitz needs no account and runs entirely in your browser (fastest, free). Gitpod needs a free GitHub/GitLab login (real VM, ~50 free hours/month). CodeSandbox needs a paid plan for the real VM runtime (its free tier's Sandbox mode can't run this demo's dependency tree) — pick "Devbox" when it asks.</p>
+    <p class="note">StackBlitz needs no account and runs entirely in your browser (fastest, free). CodeSandbox needs a paid plan for the real VM runtime (its free tier's Sandbox mode can't run this demo's dependency tree) — pick "Devbox" when it asks.</p>
   </div>
 </body>
 </html>
