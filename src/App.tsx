@@ -23,6 +23,21 @@ export default function App() {
       // Ethora Cloud production endpoint (the package default).
       baseUrl: 'https://api.chat.ethora.com/v1',
 
+      // The published @ethora/chat-component bundle resolves its XMPP
+      // service URL from `import.meta.env.VITE_*` at the LIBRARY's own
+      // build time (when it was built and published to npm), not at this
+      // app's build time. Vite inlines/replaces import.meta.env inside a
+      // published dist bundle permanently, so a .env file in THIS project
+      // can never reach it (confirmed: the shipped dist literally has
+      // `env = {}` baked in). xmppSettings is the documented runtime
+      // escape hatch for exactly this case; without it xmpp.client() gets
+      // service: '' and throws "No compatible connection method found".
+      xmppSettings: {
+        devServer: 'wss://xmpp.chat.ethora.com/ws',
+        host: 'xmpp.chat.ethora.com',
+        conference: 'conference.xmpp.chat.ethora.com',
+      },
+
       // With a demo token the component logs in on its own. Without one it
       // falls back to its built-in email/password form.
       ...(identity.token
