@@ -1,20 +1,5 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { createRequire } from 'node:module';
-
-// lz-string is not a dependency of the demo itself (the online sandbox should
-// stay minimal), so resolve it from wherever it already exists in the workspace.
-const require = createRequire(import.meta.url);
-let LZString;
-for (const from of ['lz-string', '../../ethora-chat-component/node_modules/lz-string']) {
-  try {
-    LZString = require(from);
-    break;
-  } catch {
-    /* try next */
-  }
-}
-if (!LZString) throw new Error('lz-string not found: npm i -D lz-string, then rerun');
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const FILES = [
@@ -34,21 +19,29 @@ const FILES = [
 
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
 
-// --- CodeSandbox define API ---------------------------------------------
-const csFiles = {};
-for (const f of FILES) csFiles[f] = { content: read(f) };
-const parameters = LZString.compressToBase64(JSON.stringify({ files: csFiles, template: 'node' }))
-  .replace(/\+/g, '-')
-  .replace(/\//g, '_')
-  .replace(/=+$/, '');
-const csUrl =
-  'https://codesandbox.io/api/v1/sandboxes/define?parameters=' +
-  parameters +
-  '&query=' +
-  encodeURIComponent('file=/src/App.tsx');
+// --- CodeSandbox: GitHub import, NOT the sandboxes/define API ----------
+// `sandboxes/define` (the old POST-files API) creates a client-side-only
+// "Nodebox" sandbox: it resolves bare imports (react, @ethora/chat-component,
+// its ~15 transitive deps) through a CDN on the fly instead of a real
+// `npm install`, and silently fails to mount anything for a dependency tree
+// this size (confirmed: #root stays at 0 children, zero console errors).
+// CodeSandbox's GitHub-import flow spins up a real VM-backed Devbox that
+// actually runs `.codesandbox/tasks.json` (npm install && npm run dev), which
+// is what this demo needs. That means the source of truth now has to be a
+// real, pushed GitHub repo, not an inline file payload.
+const GITHUB_REPO = 'RomanLeshc/ethora-chat-sandbox-demo';
+const GITHUB_BRANCH = 'master';
+const csUrl = `https://codesandbox.io/p/github/${GITHUB_REPO}/${GITHUB_BRANCH}`;
 
 fs.writeFileSync(path.join(ROOT, 'codesandbox-url.txt'), csUrl + '\n');
-console.log('CodeSandbox URL length:', csUrl.length);
+console.log('CodeSandbox URL (GitHub import):', csUrl);
+console.log(
+  'Reminder: this only stays correct if',
+  GITHUB_REPO,
+  '(branch',
+  GITHUB_BRANCH + ')',
+  'is kept in sync with this demo.'
+);
 
 // --- StackBlitz (POST form) ---------------------------------------------
 const esc = (s) =>
@@ -57,9 +50,6 @@ const esc = (s) =>
 const sbInputs = FILES.map(
   (f) => `      <input type="hidden" name="project[files][${esc(f)}]" value="${esc(read(f))}">`
 ).join('\n');
-
-const csInputs = `      <input type="hidden" name="parameters" value="${esc(parameters)}">
-      <input type="hidden" name="query" value="file=/src/App.tsx">`;
 
 const html = `<!doctype html>
 <html lang="en">
@@ -88,10 +78,9 @@ const html = `<!doctype html>
       runs the dev server and shows the chat. Log in with a free account from
       <a style="color:#7fb0ff" href="https://app.chat.ethora.com" target="_blank" rel="noreferrer">app.chat.ethora.com</a>.</p>
     <div class="row">
-      <form action="https://codesandbox.io/api/v1/sandboxes/define" method="POST" target="_blank">
-${csInputs}
-        <button type="submit">Open in CodeSandbox</button>
-      </form>
+      <a href="${csUrl}" target="_blank" rel="noreferrer">
+        <button type="button">Open in CodeSandbox</button>
+      </a>
       <form action="https://stackblitz.com/run" method="POST" target="_blank">
         <input type="hidden" name="project[title]" value="Ethora chat component: live sandbox">
         <input type="hidden" name="project[description]" value="React chat + AI agents SDK by Ethora">

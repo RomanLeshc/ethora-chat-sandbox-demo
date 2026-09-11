@@ -29,7 +29,8 @@ export const DEMO_TOKEN_ENDPOINT = '';
  * Anyone who opens the sandbox is that user, so use a throwaway account and
  * keep the lifetime short.
  */
-export const DEMO_CLIENT_TOKEN = '';
+export const DEMO_CLIENT_TOKEN =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InR5cGUiOiJjbGllbnQiLCJ1c2VySWQiOiJldGhvcmEtc2FuZGJveC1kZW1vIiwiYXBwSWQiOiI2NDZjYzhkYzk2ZDRhNGRjOGY3YjJmMmQifSwiaWF0IjoxNzg5MTE1OTQzLCJleHAiOjE3OTE3MDc5NDN9.0bZ6tpNNykwPaI25R5KId3nfd2PVJoyPp4zohLdiNQc';
 
 /**
  * 3) Or, with no secrets at all: a normal Ethora account used as the shared
